@@ -79,23 +79,32 @@ function clearError() {
  * User-supplied text is NEVER assigned with innerHTML.
  */
 function render() {
+  const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+  const filteredNotes = notes.filter((note) => {
+    if (!query) return true;
+    return note.text.toLowerCase().includes(query) ||
+           note.category.toLowerCase().includes(query);
+  });
+
   // Update count for zero, one, and many notes
-  updateCount(notes.length);
+  updateCount(filteredNotes.length);
 
   // Clear current list content safely
   while (notesList.firstChild) {
     notesList.removeChild(notesList.firstChild);
   }
 
-  if (notes.length === 0) {
+  if (filteredNotes.length === 0) {
     const emptyItem = document.createElement('li');
     emptyItem.className = 'empty-notes-message';
-    emptyItem.textContent = 'No notes yet. Add your first note above!';
+    emptyItem.textContent = query
+      ? 'No notes match your search.'
+      : 'No notes yet. Add your first note above!';
     notesList.appendChild(emptyItem);
     return;
   }
 
-  notes.forEach((note) => {
+  filteredNotes.forEach((note) => {
     // Card container
     const li = document.createElement('li');
     li.className = `note-card category-${note.category}`;
@@ -212,6 +221,10 @@ noteInput.addEventListener('input', () => {
       clearError();
     }
   }
+});
+
+searchInput.addEventListener('input', () => {
+  render();
 });
 
 // Initial boot: load persistent notes then render
