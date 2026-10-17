@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickNotes - Smart & Clean Note-Taking</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="header-content">
+        <div class="logo-area">
+          <span class="logo-icon">📝</span>
+          <h1>QuickNotes</h1>
+        </div>
+        <p class="tagline">Capture thoughts, organize tasks, and stay productive.</p>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <!-- Section 1: Note Creation Form -->
+      <section class="section-card form-section" aria-labelledby="create-note-heading">
+        <h2 id="create-note-heading" class="section-title">Create a Note</h2>
+        
+        <form id="note-form" novalidate>
+          <div class="form-group input-group">
+            <label for="note-input">Note content</label>
+            <input 
+              type="text" 
+              id="note-input" 
+              placeholder="What's on your mind? (max 200 chars)" 
+              maxlength="200" 
+              autocomplete="off"
+            >
+          </div>
+
+          <div class="form-group category-group">
+            <label for="note-category">Category</label>
+            <select id="note-category">
+              <option value="personal">Personal</option>
+              <option value="work">Work</option>
+              <option value="study">Study</option>
+              <option value="ideas">Ideas</option>
+            </select>
+          </div>
+
+          <div class="form-group button-group">
+            <button type="submit" id="add-note-btn" class="btn btn-primary">
+              <span class="btn-icon">+</span> Add Note
+            </button>
+          </div>
+        </form>
+
+        <p id="error-message" class="error-message" role="alert" aria-live="polite"></p>
+      </section>
+
+      <!-- Section 2: Notes Collection & Search -->
+      <section class="section-card list-section" aria-labelledby="all-notes-heading">
+        <div class="list-header">
+          <div class="list-title-wrap">
+            <h2 id="all-notes-heading" class="section-title">My Notes</h2>
+            <p id="note-count" class="note-count">0 notes</p>
+          </div>
+
+          <div class="search-wrap">
+            <label for="search-input" class="sr-only">Search notes</label>
+            <input 
+              type="text" 
+              id="search-input" 
+              placeholder="🔍 Search by keyword or category..." 
+              autocomplete="off"
+            >
+          </div>
+        </div>
+
+        <ul id="notes-list" class="notes-list"></ul>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>&copy; 2026 QuickNotes App. Built with HTML5, CSS3, and JavaScript.</p>
+    </footer>
+  </div>
+</body>
+</html>
