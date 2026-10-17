@@ -13,6 +13,34 @@ const errorMessage = document.querySelector('#error-message');
 
 // 2. State management: notes array of objects { id, text, category, createdAt }
 let notes = [];
+const STORAGE_KEY = 'quicknotes_app_notes';
+
+/**
+ * Save notes to localStorage using JSON.stringify
+ */
+function saveNotes() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+}
+
+/**
+ * Load notes from localStorage using JSON.parse
+ */
+function loadNotes() {
+  const savedData = localStorage.getItem(STORAGE_KEY);
+  if (savedData) {
+    try {
+      const parsedNotes = JSON.parse(savedData);
+      if (Array.isArray(parsedNotes)) {
+        notes = parsedNotes;
+      }
+    } catch (err) {
+      console.error('Could not parse saved notes from localStorage:', err);
+      notes = [];
+    }
+  } else {
+    notes = [];
+  }
+}
 
 /**
  * Update the note count message with proper pluralization:
@@ -158,6 +186,7 @@ function handleAddNote(e) {
   };
 
   notes.unshift(newNote);
+  saveNotes();
   render();
 
   noteInput.value = '';
@@ -170,6 +199,7 @@ function handleAddNote(e) {
  */
 function deleteNote(id) {
   notes = notes.filter((n) => n.id !== id);
+  saveNotes();
   render();
 }
 
@@ -184,5 +214,6 @@ noteInput.addEventListener('input', () => {
   }
 });
 
-// Initial render
+// Initial boot: load persistent notes then render
+loadNotes();
 render();
